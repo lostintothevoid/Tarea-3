@@ -37,7 +37,7 @@ Stack* createStack(){
     return createList();
 }
 
-node* _createNode(void* data){
+node* _createListNode(void* data){
     node* t;
     t=(node*) malloc (sizeof(node));
     t -> data = data;
@@ -74,7 +74,7 @@ void popBack(List* list){
 
 void pushFront(List* list, void* data){
     node *a;
-    a=_createNode(data);
+    a=_createListNode(data);
     if(is_empty(list))
         list -> last = a;
     else
@@ -87,7 +87,7 @@ void pushFront(List* list, void* data){
 
 void pushBack(List* list, void* data){
     node *a;
-    a=_createNode(data);
+    a=_createListNode(data);
     if(is_empty(list))
         list -> first = a;
     else
@@ -101,7 +101,7 @@ void pushBack(List* list, void* data){
 void pushCurrent(List* list, void* data){
     if(!list->current) return;
 
-    node* a=_createNode(data);
+    node* a=_createListNode(data);
     a->next=list->current->next;
     list->current->next=a;
     if(a->next) a->next->prev=a;
