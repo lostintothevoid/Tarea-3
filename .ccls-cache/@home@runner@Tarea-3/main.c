@@ -5,7 +5,7 @@
 #include "heap.h"
 #include "list.h"
 #include "Map.h"
-
+//struct tarea se encarga de guardar el nombre de la tarea y su prioridad
 typedef struct{
   char taskname[100];
   int prioridad; 
@@ -17,12 +17,12 @@ typedef struct{
   tarea* pilaTask2;// tarea dos e caso de ser opcion 1
   bool iterruptor;//guarda si de desactiva la tarea o se activa
 }pilaAcciones;
-
+//la estructura tipo tarea guardatodo lo relacionado a la tarea
 typedef struct{
-  Stack* actions;
-  bool taskflag;
-  tarea* task;
-  List* prevTasks; 
+  Stack* actions;//guarda las accioes para la fucion 5
+  bool taskflag;//si es true la tarea esta activa en false lo cotrario
+  tarea* task;// la tarea en si
+  List* prevTasks; //lista de las tareas previas por prio
 }tipoTareas;
 
 int is_equal_string(void * key1, void * key2) {
@@ -38,10 +38,11 @@ void confirmarCaracteres(char *cadena){
     getchar();
   } 
 }
-
+//fucion 1 
 void ingresarTarea(Map* tareas, Heap* ordenPrio){
   tipoTareas* trashTask = malloc(sizeof(tipoTareas));
   trashTask->task = malloc(sizeof(tarea));
+  printf("ingrese la tarea que desea guardar");
   scanf("%s", trashTask->task->taskname);
   getchar();
   confirmarCaracteres(trashTask->task->taskname);
@@ -60,7 +61,6 @@ void ingresarTarea(Map* tareas, Heap* ordenPrio){
   
   insertMap(tareas, trashTask->task->taskname, trashTask);
   heap_push(ordenPrio, trashTask->task->taskname, trashTask->task->prioridad);
-
 }
 
 void menu(Map *tareas, Heap* ordenPrio){
