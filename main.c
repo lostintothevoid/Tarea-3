@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,10 +40,10 @@ void confirmarCaracteres(char *cadena){
   } 
 }
 //fucion 1 
-void ingresarTarea(Map* tareas, Heap* ordenPrio){
+void ingresarTarea(Map* tareas){
   tipoTareas* trashTask = malloc(sizeof(tipoTareas));
   trashTask->task = malloc(sizeof(tarea));
-  printf("ingrese la tarea que desea guardar");
+  printf("ingrese la tarea que desea guardar\n");
   scanf("%s", trashTask->task->taskname);
   getchar();
   confirmarCaracteres(trashTask->task->taskname);
@@ -60,7 +61,35 @@ void ingresarTarea(Map* tareas, Heap* ordenPrio){
   // push(trashTask->actions, pila);
   
   insertMap(tareas, trashTask->task->taskname, trashTask);
-  heap_push(ordenPrio, trashTask->task->taskname, trashTask->task->prioridad);
+  
+}
+
+//funcion 2
+void cambioDeOrden(Map* tareas){
+  //se crean dos variables basuras una tarea para guardar la prioridad en un futuro swap y una cadena para usar como key de la tarea 2
+  tarea* trash1=malloc(sizeof(tarea));
+  char trash2[100];
+  printf("ingrese el nombre de la tarea 1 \n");
+  scanf("%s", trash1->taskname);
+  getchar();
+  printf("ingrese el nombre de la tarea 2\n");
+  scanf("%s", trash2);
+  getchar();
+  // se usan las variables basura para encontrar las tareas que se quieren cambiar
+  tipoTareas* aux =searchMap(tareas, trash1->taskname);
+  tipoTareas* aux2 =searchMap(tareas, trash2);
+  //se verifica si la tarea 1 va antes en ese caso no se realiza swap debido a que la tarea 1 va antes de la tarea 2 caso contrario se hace swap para que asi sea.
+  if(aux->task->prioridad<aux2->task->prioridad){
+    printf("la tarea *%s* va antes que la tarea *%s* dos por lo que no se realizo cambio\n", trash1->taskname, trash2);
+  }
+  else{
+    trash1->prioridad=aux2->task->prioridad;
+    aux2->task->prioridad=aux->task->prioridad;
+    aux->task->prioridad=trash1->prioridad;
+    insertMap(tareas, aux->task->taskname, aux);
+    insertMap(tareas, aux2->task->taskname, aux2);
+    printf("se cambio de orden de la tarea %s por la tarea de %s \n", trash1->taskname, trash2);
+  }
 }
 
 void menu(Map *tareas, Heap* ordenPrio){
@@ -81,11 +110,11 @@ void menu(Map *tareas, Heap* ordenPrio){
     getchar();
 
     switch(opcion){
-      case 1: ingresarTarea(tareas, ordenPrio);
+      case 1: ingresarTarea(tareas);
       break; 
             
-      // case 2: mostrarJugador(jugadores);
-      // break;
+      case 2: cambioDeOrden(tareas);
+      break;
           
       // case 3: procesoInsertarItem(jugadores,mapaItems);
       // break;
