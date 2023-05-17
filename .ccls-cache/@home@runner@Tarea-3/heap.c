@@ -29,7 +29,7 @@ void recorrerHeap(Heap* pq, int current){
   }
 
   int parent=(current-1)/2;
-  if (pq->heapArray[current].priority>pq->heapArray[parent].priority){
+  if (pq->heapArray[current].priority<pq->heapArray[parent].priority){
     heapElem aux=pq->heapArray[current];
     pq->heapArray[current]=pq->heapArray[parent];
     pq->heapArray[parent]=aux;
