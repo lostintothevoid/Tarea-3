@@ -3,7 +3,7 @@ La función 1, se encarga de ingresar tareas a su estructura correspondiente, do
 La función 2 se encarga de establecer precedentes, por lo que se le pedirá al usuario el nombre de la tarea precedente y, después, donde se ingresará dicha tarea precedente.
 En la función 3(NO COMPLETA), se ordenan todas las tareas por hacer, sin embargo, solo las ordenará por prioridad, ya que no pudimos completar de buena manera el ordenamiento completo.
 La función 4 es la encarga de completar tareas, por lo que pide el nombre de la tarea a completar, la cuál le pregunta al usuario, si es que tiene tareas precedentes, si desea completar de todas formas ya que se eliminará del mapa, ya que si está completa, no es necesario seguir mostrándola.
-La función 5 simplemente deshace las últimas acciones.
+La función 5(NO COMPLETA) simplemente deshace las últimas acciones, sin embargo, no deshace cuando se establecen precedencias entre tareas, ni deshace el importe de un archivo.
 La función 6 importa un archivo, el cuál tiene que ser ingresado literalmente, lo cuál incluye la terminación del archivo, por ejemplo, si el archivo se llama “tareas” y tiene terminación .csv, deberás ingresar el archivo como “tareas.csv”.
 
 Coevaluación en equipo: 

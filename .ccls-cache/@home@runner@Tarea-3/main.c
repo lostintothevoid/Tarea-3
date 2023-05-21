@@ -120,17 +120,9 @@ void cambioDePreferencia(Map* tareas, Stack* pila){
   getchar();
   //Se usan las variables basura para encontrar las tareas que se quieren cambiar
   tipoTareas* aux =searchMap(tareas, trash2);
-  //se guarda la tarea antes del cambio
-  pilaAcciones* auxpila = malloc(sizeof(pilaAcciones));
-  auxpila->PrimeTask=malloc(sizeof(tipoTareas));// Allocate memory for the pilaAcciones struct
-  auxpila->accion = 1;
-  strcpy(auxpila->PrimeTask->task->taskname, trash2);
-  auxpila->PrimeTask->taskflag=true;
-  auxpila->PrimeTask->task->prioridad= aux->task->prioridad;
-  push(pila, auxpila);
+  pushBack(aux->task->prevTask, trash1->taskname);//colloca la tarea 2 en la lista de tareas prev 1
 //una vez terminado el guardado
   printf("Se estableció correctamente la precedencia.\n");
-  pushBack(aux->task->prevTask, trash1->taskname);//colloca la tarea 2 en la lista de tareas prev 1
 }
 //Función 3
 void mostrarTareas(Map* tareas) {
