@@ -128,10 +128,10 @@ void cambioDePreferencia(Map* tareas, Stack* pila){
   auxpila->PrimeTask->taskflag=true;
   auxpila->PrimeTask->task->prioridad= aux->task->prioridad;
   push(pila, auxpila);
-//una vez terminado el guardado 
+//una vez terminado el guardado
   printf("Se estableció correctamente la precedencia.\n");
   pushBack(aux->task->prevTask, trash1->taskname);//colloca la tarea 2 en la lista de tareas prev 1
-
+}
 //Función 3
 void mostrarTareas(Map* tareas) {
   if(firstMap(tareas)==NULL){
