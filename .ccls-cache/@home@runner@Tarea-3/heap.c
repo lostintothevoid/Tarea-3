@@ -5,10 +5,10 @@
 #include <ctype.h>
 #include "heap.h"
 
-typedef struct Nodo{
+typedef struct nodo{
    void* data;
    int priority;
-} heapElem;
+}heapElem;
 
 typedef struct Heap{
   heapElem* heapArray;
@@ -17,61 +17,57 @@ typedef struct Heap{
 } Heap;
 
 void* heap_top(Heap* pq){
-  if (pq == NULL || pq->size == 0){
-    return NULL;
-  }
+  if(pq->size==0) return NULL;
   return pq->heapArray[0].data;
 }
 
-void recorrerHeap(Heap* pq, int current){
-  if (current == 0){
-    return; // El elemento está en la raíz, no hay padre
-  }
-
-  int parent=(current-1)/2;
-  if (pq->heapArray[current].priority<pq->heapArray[parent].priority){
-    heapElem aux=pq->heapArray[current];
-    pq->heapArray[current]=pq->heapArray[parent];
-    pq->heapArray[parent]=aux;
-    recorrerHeap(pq,parent);
-  }
-}
-
-void heap_push(Heap* pq, void* data, int p){
-  if (pq->size==pq->capac){
-    pq->capac=(pq->capac*2)+1;
-    pq->heapArray=realloc(pq->heapArray,sizeof(heapElem)*pq->capac); 
-  }
-  pq->heapArray[pq->size].data=data;
-  pq->heapArray[pq->size].priority=p;
-  recorrerHeap(pq, pq->size);
-  pq->size++;
-}
-
-void heap_pop(Heap* pq){ 
-  pq->heapArray[0]=pq->heapArray[--pq->size];
-  int pos=0;
-  int left, right, father;
-  heapElem aux=pq->heapArray[pos];
-  while ((left=(pos*2) + 1) < pq->size) { 
-    right=left+1;
-    father=left;
-    if (right<pq->size && pq->heapArray[right].priority > pq->heapArray[left].priority) {
-      father=right;
+void heap_push(Heap* pq, void* data, int priority){
+    
+    if(pq->size+1>pq->capac){
+        //printf("se expande de %i a ", pq->capac);
+        pq->capac=(pq->capac)*2+1;
+        //printf("%i * %lu", pq->capac, sizeof(heapElem));
+        pq->heapArray=realloc(pq->heapArray, (pq->capac)*sizeof(heapElem));
     }
-    if(pq->heapArray[pos].priority >= pq->heapArray[father].priority){
-      break;
-    }
-    pq->heapArray[pos]=pq->heapArray[father];
-    pos=father;
-  }
-  pq->heapArray[pos]=aux;
+
+    /*Flotación*/
+    int now = pq->size;
+    while(now>0 && pq->heapArray[(now-1)/2].priority < priority)
+        {
+                pq->heapArray[now] = pq->heapArray[(now-1)/2];
+                now = (now -1)/2;
+        }
+    pq->heapArray[now].priority = priority;
+    pq->heapArray[now].data = data;
+    pq->size++;
 }
 
-Heap* createHeap(){ 
-  Heap* heap = malloc(sizeof(Heap));
-  heap->heapArray = malloc(sizeof(heapElem) * 3);
-  heap->size = 0;
-  heap->capac = 3;
-  return heap;
+
+void heap_pop(Heap* pq){
+
+        pq->size--;
+        pq->heapArray[0] = pq->heapArray[pq->size];
+        int priority=pq->heapArray[0].priority;
+
+        
+        int now = 1;
+        
+        while((now<=pq->size && pq->heapArray[now].priority > priority) || (now+1<=pq->size && pq->heapArray[now+1].priority > priority)){
+          heapElem tmp=pq->heapArray[(now-1)/2];
+          if(now+1<=pq->size && pq->heapArray[now].priority < pq->heapArray[now+1].priority) now++;
+
+          pq->heapArray[(now-1)/2]=pq->heapArray[now];
+          pq->heapArray[now]=tmp;
+
+          now = now * 2 + 1;
+        }
+        //printf("size = %i, top = %i\n", pq->size, pq->heapArray[0].data );
+}
+
+Heap* createHeap(){
+   Heap *pq=(Heap*) malloc(sizeof(Heap));
+   pq->heapArray=(heapElem*) malloc(3*sizeof(heapElem));
+   pq->size=0;
+   pq->capac=3; //capacidad inicial
+   return pq;
 }

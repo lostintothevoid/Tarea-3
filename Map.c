@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <stdbool.h>
+
 typedef struct Node Node;
 
 struct Node {
@@ -37,6 +39,8 @@ struct Map {
 
     /*! Punteor para poder recorrer la lista */
     Node * current;
+
+    int size;
 
     int (*is_equal)(void* key1, void* key2);
     int (*lower_than)(void* key1, void* key2);
@@ -229,3 +233,56 @@ void * eraseMap(Map * list, void * key) {
 
     return data;
 }
+
+int sizeMap(Map *map) {
+  int count = 0;
+  Node *element = map->head;
+
+  while (element != NULL) {
+    count++;
+    element = element->next;
+  }
+
+  return count;
+}
+
+void **mapToArray(Map *map) {
+  int size = sizeMap(map);
+  void **array = (void **)malloc(sizeof(void *) * size);
+
+  Node *node = map->head;
+  int i = 0;
+  while (node != NULL) {
+    array[i++] = node->data;
+    node = node->next;
+  }
+
+  return array;
+}
+
+void * clearMap(Map *map) {
+  Node *curr = map->head;
+  Node *next = NULL;
+
+  while (curr != NULL) {
+    next = curr->next;
+
+    free(curr->data);
+    free(curr->key);
+    free(curr);
+
+    curr = next;
+  }
+
+  map->head = NULL;
+  map->tail = NULL;
+  map->size = 0;
+}
+
+bool hasKey(Map* map, void* key) {
+  if (searchMap(map, key) != NULL) {
+    return true;
+  }
+  return false;
+}
+
