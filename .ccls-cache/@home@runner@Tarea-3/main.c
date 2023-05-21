@@ -200,14 +200,14 @@ void EliminarTarea(Map* tareas, Stack* pila){
   auxpila->accion = 2;
   auxpila->PrimeTask = auxTask;
   push(pila, auxpila);
-  char aux;
+  int aux;
   if(first(auxTask->task->prevTask)!=NULL){
-    printf("Esta tarea tiene tareas previas. ¿Estás seguro de marcarla como hecha? s|n\n");
-    scanf("%c", &aux);
-    if(aux=='n'){
+    printf("Esta tarea tiene tareas previas. ¿Estás seguro de marcarla como hecha? 1=Sí/2=No\n");
+    scanf("%d", &aux);
+    if(aux==2){
       printf("Está bien, no se marcó ninguna tarea.\n");
     }
-    else if(aux=='s'){
+    else if(aux==1){
       auxTask->taskflag=false;
       eraseMap(tareas, basura);
     }
