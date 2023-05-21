@@ -171,7 +171,7 @@ void mostrarTareas(Map* tareas) {
     printf("%d.", cont);
     printf(" Tarea %s (Prioridad: %d) -", tarea->task->taskname, tarea->task->prioridad);
 
-    // Print the names of the previous tasks, if any
+    ///Print the names of the previous tasks, if any
     if (is_empty(tarea->task->prevTask)) {
       printf(" Sin tareas previas\n");
     } else {
